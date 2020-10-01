@@ -16,7 +16,7 @@
             <br><br>
             <a href="registrarImagen.jsp">ELIMINAR/MODIFICAR IMAGEN</a>
             <br><br>
-            <a href="registrarImagen.jsp">LISTA IMAGENES</a>
+            <a href="list">LISTA IMAGENES</a>
             <br><br>
             <a href="registrarImagen.jsp">BUSCAR IMAGEN</a>
         </form>

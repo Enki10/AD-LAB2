@@ -74,7 +74,34 @@ public class DB {
         return null;
     }
     
-    public boolean usuarioExists (String username, String password)throws ClassNotFoundException, SQLException{        
+    public List<imagen> getAllImagenes (){
+        
+        try {
+            List<imagen> vimg = new ArrayList<>();
+            imagen img;
+            ResultSet res =  handMadeQuery("select * from image");
+            
+            while (res.next()) {
+                img = new imagen(res.getString("title"),
+                                 res.getString("description"),
+                                 res.getString("keywords"),
+                                 res.getString("author"),
+                                 res.getString("creation_date"),
+                                 res.getString("storage_date"),
+                                 res.getString("filename")
+                                 );
+                
+                vimg.add(img);
+            }
+            
+            return vimg;
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public boolean usuarioExists (String username, String password){        
         try {
             ResultSet res = handMadeQuery("select * from usuarios u where u.ID_USUARIO = '"+username+"' and u.PASSWORD = '"+password+"'");
 

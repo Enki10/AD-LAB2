@@ -46,6 +46,7 @@ public class login extends HttpServlet {
                 if(db.usuarioExists(username, password)){
                     HttpSession session = request.getSession();
                     session.setAttribute("username", username);
+                    session.setAttribute("password", password);
 
                     request.getRequestDispatcher("menu.jsp").forward(request, response);
                 } else {
@@ -53,13 +54,8 @@ public class login extends HttpServlet {
                     request.getRequestDispatcher("error.jsp").forward(request, response); 
                 }
             }
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
       
 }
 
