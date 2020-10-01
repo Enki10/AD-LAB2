@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -41,56 +42,59 @@ public class registrarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {                        
+            DB db;
+            
+            HttpSession session = request.getSession();
+            Object authorObj =session.getAttribute("username");
+            
             
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String paraulesClau = request.getParameter("pclau");
+            String author = authorObj.toString();
                         
             Part filePart = request.getPart("imatge");
             
             byte[] bImatge;
-            File f;
             
             if(filePart != null && filePart.getContentType().equals("image/jpeg")){
 
-                out.println(filePart.getName());
-                out.println(filePart.getSize());
-                out.println(filePart.getContentType());
+                db = new DB();
+                if(!db.imageExists(titol)){
+                    
+                    out.println(filePart.getName());
+                    out.println(filePart.getSize());
+                    out.println(filePart.getContentType());
+                                                           
+                    String creationDate = "9999/99/99";
+                    boolean res = db.insertImage(titol, descripcio, paraulesClau, author , creationDate);
+                    
+                    if(res){
+                        OutputStream outStream = null;
+                        InputStream filecontent = null;
 
-                OutputStream outStream = null;
-                InputStream filecontent = null;
-                
-                String path = getServletContext().getRealPath("images/");
-                String fullPath = path + File.separator + titol+".jpg";
-                outStream = new FileOutputStream(new File(fullPath));
-                filecontent = filePart.getInputStream();
-                
-                int read = 0;
-                final byte[] bytes = new byte[1024];
+                        String path = getServletContext().getRealPath("images/");
+                        String fullPath = path + File.separator + titol+".jpg";
+                        outStream = new FileOutputStream(new File(fullPath));
+                        filecontent = filePart.getInputStream();                    
 
-                while ((read = filecontent.read(bytes)) != -1) {
-                    outStream.write(bytes, 0, read);
+                        int read = 0;
+                        final byte[] bytes = new byte[1024];
+
+                        while ((read = filecontent.read(bytes)) != -1) {
+                            outStream.write(bytes, 0, read);
+                        }
+
+                        outStream.close();
+                        filecontent.close();
+                    } else {
+                        //errror al insertar en DB
+                    }                    
+                } else {
+                    //error la imatge ja existeix;
                 }
-                
-                outStream.close();
-                filecontent.close();
-                
-                
-                /*
-                InputStream inputStream = filePart.getInputStream();
-                bImatge = new byte[inputStream.available()];
-                inputStream.read(bImatge);
-                f = new File(titol+".jpg");
-                
-                String relativeWebPath = "images/";
-                String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
-                String imagePath = absoluteDiskPath +"\\"+ f.getName();
-                
-                OutputStream outputStream = new FileOutputStream(imagePath);
-                outputStream.write(bImatge);   
-                out.println("done");
-                */
+                                    
             }
         }
     }

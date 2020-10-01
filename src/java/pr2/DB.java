@@ -5,12 +5,16 @@
  */
 package pr2;
 
+
 import static java.lang.System.out;
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
@@ -48,7 +52,7 @@ public class DB {
             return null;                    
         }
 
-    }
+    }        
     
     
     public List<usuario> getAllUsuarios (){
@@ -81,5 +85,53 @@ public class DB {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public boolean imageExists(String imageName) {       
+        
+        try {            
+            ResultSet res = handMadeQuery("select * from image i where u.title= '"+imageName+"'");
+            
+            if(res == null) return false;
+            if(res.next() == false) return false;
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return true;
+    }
+    
+    
+    
+    public boolean insertImage(String title, String description, String keywords, String author, String creationDate){
+        
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String storageDate = simpleDateFormat.format(new Date());
+        
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection connection = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            
+            Statement statement = connection.createStatement();
+                        
+            int res = statement.executeUpdate(
+                "INSERT INTO IMAGE VALUES(3,'"+title+"','"
+                +description+"','"+keywords+"','"+author+"','"
+                +creationDate+"','"+storageDate+"','"
+                +title+".jpg')"
+            );
+            
+            connection.close();
+            if (res > 0) return true;
+            return false;
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            return false;                    
+        }
     }
 }
