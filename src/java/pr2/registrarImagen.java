@@ -93,10 +93,10 @@ public class registrarImagen extends HttpServlet {
                         outStream.close();
                         filecontent.close();
                     } else {
-                        //errror al insertar en DB
+                        request.getRequestDispatcher("error.jsp").forward(request, response); 
                     }                    
                 } else {
-                    //error la imatge ja existeix;
+                    request.getRequestDispatcher("error.jsp").forward(request, response); 
                 }
                                     
             }
