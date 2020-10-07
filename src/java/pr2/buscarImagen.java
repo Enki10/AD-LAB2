@@ -52,12 +52,12 @@ public class buscarImagen extends HttpServlet {
             
             DB db = new DB();
             
-            if (usuarioObj == null || passwordObj == null) out.println("ERROR");//ERROR
-            if (!db.usuarioExists(usuarioObj.toString(), passwordObj.toString())) out.println("ERROR");//ERROR
+            if (usuarioObj == null || passwordObj == null) request.getRequestDispatcher("error.jsp").forward(request, response); //ERROR
+            if (!db.usuarioExists(usuarioObj.toString(), passwordObj.toString())) request.getRequestDispatcher("error.jsp").forward(request, response); //ERROR
             if(imageTitle == null) out.println("ERROR");
             imagen img = db.getImage(imageTitle);
             
-            if(img == null) out.println("ERROR: Image not found"); //ERROR                       
+            if(img == null) request.getRequestDispatcher("error.jsp").forward(request, response); //ERROR                       
             String path = getServletContext().getRealPath("WEB-INF/");
             String fullPath = path + File.separator + imageTitle+".jpg";
                                    

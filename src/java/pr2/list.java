@@ -45,9 +45,9 @@ public class list extends HttpServlet {
             
             DB db = new DB();
             
-            if (usuarioObj == null || passwordObj == null) out.println("ERROR");//ERROR
-            if (!db.usuarioExists(usuarioObj.toString(), passwordObj.toString())) out.println("ERROR");//ERROR
-            if(imageTitle == null) out.println("ERROR");
+            if (usuarioObj == null || passwordObj == null) request.getRequestDispatcher("error.jsp").forward(request, response); //ERROR
+            if (!db.usuarioExists(usuarioObj.toString(), passwordObj.toString())) request.getRequestDispatcher("error.jsp").forward(request, response);//ERROR
+            if(imageTitle == null) request.getRequestDispatcher("error.jsp").forward(request, response); ;
             
             session.setAttribute("imageTitle",imageTitle);
             request.getRequestDispatcher("modificarImagen.jsp").forward(request, response); 
