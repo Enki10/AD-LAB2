@@ -13,3 +13,17 @@
         </form> 
     </body>
 </html>
+
+<%
+    session = request.getSession();
+    String returnPath = (String) session.getAttribute("errorReturnPath");
+    if(returnPath != null){
+        out.println("<form action=\""+returnPath+"\">");
+        out.println("<button type=\"submit\"> Volver Pagina Anterior </button>");
+        out.println("</form>");
+    } else  {       
+        out.println("<form action=login.jsp>");
+        out.println("<button type=\"submit\"> Volver Pagina Anterior </button>");
+        out.println("</form>");
+    }
+%>

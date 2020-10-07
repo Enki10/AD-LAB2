@@ -46,6 +46,7 @@ public class registrarImagen extends HttpServlet {
             DB db;
             
             HttpSession session = request.getSession();
+            session.setAttribute("errorReturnPath","registrarImagen.jsp");
             Object authorObj =session.getAttribute("username");
             
             
@@ -63,9 +64,9 @@ public class registrarImagen extends HttpServlet {
                 db = new DB();
                 if(!db.imageExists(titol)){
                     
-                    out.println(filePart.getName());
-                    out.println(filePart.getSize());
-                    out.println(filePart.getContentType());
+                    //out.println(filePart.getName());
+                    //out.println(filePart.getSize());
+                    //out.println(filePart.getContentType());
                                                            
                     String creationDate = "9999/99/99";
                     boolean res = db.insertImage(titol, descripcio, paraulesClau, author , creationDate);
@@ -97,9 +98,9 @@ public class registrarImagen extends HttpServlet {
                     }                    
                 } else {
                     request.getRequestDispatcher("error.jsp").forward(request, response); 
-                }
-                                    
+                }                                    
             }
+            request.getRequestDispatcher("error.jsp").forward(request, response); 
         }
     }
 

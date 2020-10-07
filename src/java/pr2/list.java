@@ -39,6 +39,7 @@ public class list extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             
             HttpSession session = request.getSession();
+            session.setAttribute("errorReturnPath","list.java");
             String imageTitle = request.getParameter("imageTitle");
             Object usuarioObj = session.getAttribute("username");
             Object passwordObj = session.getAttribute("password");

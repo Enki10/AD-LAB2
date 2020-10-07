@@ -45,6 +45,7 @@ public class login extends HttpServlet {
             } else {
                 if(db.usuarioExists(username, password)){
                     HttpSession session = request.getSession();
+                    session.setAttribute("errorReturnPath","login.jsp");
                     session.setAttribute("username", username);
                     session.setAttribute("password", password);
 
