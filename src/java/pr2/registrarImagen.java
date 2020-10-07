@@ -70,14 +70,18 @@ public class registrarImagen extends HttpServlet {
                     String creationDate = "9999/99/99";
                     boolean res = db.insertImage(titol, descripcio, paraulesClau, author , creationDate);
                     
-                    if(res){
+                    if(true){
                         OutputStream outStream = null;
                         InputStream filecontent = null;
 
-                        String path = getServletContext().getRealPath("images/");
-                        String fullPath = path + File.separator + titol+".jpg";
-                        outStream = new FileOutputStream(new File(fullPath));
-                        filecontent = filePart.getInputStream();                    
+                        //String path = getServletContext().getRealPath("images/");
+                        //String fullPath = path + File.separator + titol+".jpg";
+                        //************************************************************//
+                        //                  ES CORRECTE???????
+                        String fullStaticPath = "C:\\Users\\marcu\\Documents\\NetBeansProjects\\Practica2\\web\\images\\"+titol+".jpg";
+                        //************************************************************//
+                        outStream = new FileOutputStream(new File(fullStaticPath));
+                        filecontent = filePart.getInputStream();                      
 
                         int read = 0;
                         final byte[] bytes = new byte[1024];

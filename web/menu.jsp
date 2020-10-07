@@ -4,6 +4,7 @@
     Author     : marcu
 --%>
 
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,11 +15,9 @@
         <form action="menu" method="POST">
             <a href="registrarImagen.jsp">REGISTRAR IMAGEN</a>
             <br><br>
-            <a href="registrarImagen.jsp">ELIMINAR/MODIFICAR IMAGEN</a>
+            <a href="list.jsp">LISTA IMAGENES</a>
             <br><br>
-            <a href="list">LISTA IMAGENES</a>
-            <br><br>
-            <a href="registrarImagen.jsp">BUSCAR IMAGEN</a>
+            <a href="buscarImagen.jsp">BUSCAR IMAGEN</a>
         </form>
     </body>
 </html>
